@@ -1,6 +1,6 @@
 <?php
 
-require_once( '../common/common_session.php' );
+require_once( '../common/PHP/common_session.php' );
 
 if ( isset ( $_SESSION['logged-in'] ) && $_SESSION['logged-in'] == true )
 {

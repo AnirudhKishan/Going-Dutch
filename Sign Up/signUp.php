@@ -1,6 +1,6 @@
 <?php
 
-require_once ( '../common/common_database.php' );
+require_once ( '../common/PHP/common_database.php' );
 
 ?>
 

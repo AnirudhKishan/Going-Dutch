@@ -1,8 +1,8 @@
 <?php
 
-require_once ( '../common/common_database.php' );
-require_once ( '../common/common_session.php' );
-require_once ( '../common/common_session validate.php' );
+require_once ( '../common/PHP/common_database.php' );
+require_once ( '../common/PHP/common_session.php' );
+require_once ( '../common/PHP/common_session validate.php' );
 
 ?>
 
