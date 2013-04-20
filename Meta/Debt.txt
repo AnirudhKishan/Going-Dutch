@@ -1,0 +1,2 @@
+Success / Failures should be REDIRECTED to another file.
+	So that the submit page cannot be refreshed repetedly and the database troubled.
