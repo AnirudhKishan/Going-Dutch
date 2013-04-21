@@ -3,3 +3,8 @@ friendRequest_action_front.php sends friend information to friendRequest_action.
 wrt. table `friendRelation`
 	`friend1` initiated the friend request
 	`friend2` accept the request
+
+wrt. table `transaction`, attribute `status`
+	1	:	Approved
+	0	:	Pending
+	-1	: Rejected

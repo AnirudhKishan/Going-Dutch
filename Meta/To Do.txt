@@ -1,13 +1,10 @@
-Develop Notification
-
-	-Notify when someone accepts friend request
+Develop Approval / Rejection of pending transactions
 
 ----------------------------------------------------------------------------------------------------
 
-Develop: Recording of transactions
+Develop Notification
 
-	Left off: at "Friends involved in this transaction"
-		As this needs the concept of Friends
+	-Notify when someone accepts friend request
 
 ----------------------------------------------------------------------------------------------------
 
