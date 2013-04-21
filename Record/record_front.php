@@ -4,6 +4,11 @@ require_once ( '../common/PHP/common_session.php' );
 require_once ( '../common/PHP/common_session validate.php' );
 require_once ( '../common/PHP/common_database.php' );
 
+if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/master/PHP/XSS%20Protection/XSS_encode.php' ) )
+{
+	require_once ( '../common/Fa773N_M0nK-library/PHP/XSS Protection/XSS_encode.php' );
+}
+
 ?>
 
 <?php
@@ -42,7 +47,7 @@ foreach ( $frndList as $key=>$frndID )
 	$stmt->execute ( );
 	$rslt = $stmt->fetch ( );
 	
-	$frndName = $rslt[0];
+	$frndName = XSS_encode ( $rslt[0], 0 )[1];
 	
 	array_push ( $content , "<input type=\"checkbox\" name=\"involved[]\" id=\"frnd_$key\" value=\"$frndID\"><label for=\"frnd_$key\">$frndName</label>" );
 }
