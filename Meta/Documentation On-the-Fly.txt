@@ -1,0 +1,5 @@
+friendRequest_action_front.php sends friend information to friendRequest_action.php as the array index of "frnd".
+
+wrt. table `friendRelation`
+	`friend1` initiated the friend request
+	`friend2` accept the request

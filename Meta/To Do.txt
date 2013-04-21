@@ -1,1 +1,16 @@
+Develop Notification
+
+	-Notify when someone accepts friend request
+
+----------------------------------------------------------------------------------------------------
+
 Develop: Recording of transactions
+
+	Left off: at "Friends involved in this transaction"
+		As this needs the concept of Friends
+
+----------------------------------------------------------------------------------------------------
+
+Develop Friend Circles
+
+----------------------------------------------------------------------------------------------------
