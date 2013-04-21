@@ -13,16 +13,18 @@ if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/ma
 
 <?php
 
-$query1 = "UPDATE `friendRequest` SET `status`=:status;";
+$query1 = "UPDATE `friendRequest` SET `status`=:status WHERE `from`=:from AND `to`=:to;";
 $stmt1 = $dbh->prepare ( $query1 );
 $stmt1->bindParam ( ":status", $status );
+$stmt1->bindParam ( ":from", $frnd );
+$stmt1->bindParam ( ":to", $_SESSION['id' );
 
 $query2 = "INSERT INTO `friendRelation` ( `friend1`, `friend2` ) VALUES ( :frnd1, :frnd2 );";
 $stmt2 = $dbh->prepare ( $query2 );
 $stmt2->bindParam ( ":frnd1", $frnd );
 $stmt2->bindParam ( ":frnd2", $_SESSION['id'] );
 
-foreach ( $_POST['frnd'] as $key=>$val )
+foreach ( $_POST['frnd'] as $frnd=>$val )
 {
 	if ( $val == "0" )
 	{
@@ -38,12 +40,18 @@ foreach ( $_POST['frnd'] as $key=>$val )
 		exit ( );
 	}
 	
+	/*
+		TODO: -
+			If the user modifies the array index of 'frnd', the execution of stmt1 may fail.
+				Because, the index of `frnd` decides to which user the current user has to be befriended
+			
+			check for such a condition the handle its error
+	*/
+	
 	$stmt1->execute ( );
 	
 	if ( $status == 1 )
-	{
-		$frnd = $key;
-		
+	{		
 		$stmt2->execute ( );
 	}	
 }

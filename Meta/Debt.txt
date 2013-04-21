@@ -31,3 +31,14 @@ exit() after header()
 Check for integrety of database before each exit ( )
 
 ----------------------------------------------------------------------------------------------------
+
+*This is mentioned as a TODO, in the file*
+
+In friendRequest_action,
+
+	If the user modifies the array index of 'frnd', the execution of stmt1 may fail.
+		Because, the index of `frnd` decides to which user the current user has to be befriended
+
+	check for such a condition the handle its error
+
+----------------------------------------------------------------------------------------------------
