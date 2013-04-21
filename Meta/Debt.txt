@@ -55,7 +55,22 @@ In record.php
 
 ----------------------------------------------------------------------------------------------------
 
+*This is mentioned as a TODO, in the file*
+
+In pending_action.php
+
+	If the user modifies the name of the radio button,
+		He may end up accepting a transaction, of which he has no right to
+
+	check for such a condition the handle its error
+
+----------------------------------------------------------------------------------------------------
+
 Include database only after validating session.
 	because, otherwise database init. is just a waste
+
+----------------------------------------------------------------------------------------------------
+
+Check that each intermediate page is comming from the proper previous page.
 
 ----------------------------------------------------------------------------------------------------

@@ -1,6 +1,3 @@
-Develop Approval / Rejection of pending transactions
-
-----------------------------------------------------------------------------------------------------
 
 Develop Notification
 
