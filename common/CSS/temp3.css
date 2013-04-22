@@ -1,3 +1,8 @@
+.table
+{
+	display: table;
+}
+
 .row
 {
 	display: table-row;

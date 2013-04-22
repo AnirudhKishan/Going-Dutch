@@ -54,6 +54,8 @@ else
 		<a href="../Pending/pending_front.php">Accept/Reject Pending Transaction(s)</a>
 		<br>
 	</div>
+	<a href="../View Transactions/viewTransactions_front.php">View Transactions</a>
+	<br>
 	<a href="../Log Out/logOut.php">Log Out</a>
 	
 </body>
