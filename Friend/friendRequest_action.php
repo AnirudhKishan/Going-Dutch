@@ -24,6 +24,10 @@ $stmt2 = $dbh->prepare ( $query2 );
 $stmt2->bindParam ( ":frnd1", $frnd );
 $stmt2->bindParam ( ":frnd2", $_SESSION['id'] );
 
+$query3 = "INSERT INTO `status` ( `friendRelation`, `status` ) VALUES ( :frndRelID, '0.00' );";
+$stmt3 = $dbh->prepare ( $query3 );
+$stmt3->bindParam ( ":frndRelID", $frndRelID );
+
 foreach ( $_POST['frnd'] as $frnd=>$val )
 {
 	if ( $val == "0" )
@@ -53,7 +57,11 @@ foreach ( $_POST['frnd'] as $frnd=>$val )
 	if ( $status == 1 )
 	{		
 		$stmt2->execute ( );
-	}	
+		
+		$frndRelID = $dbh->lastInsertId ( );
+		
+		$stmt3->execute ( );	
+	}
 }
 
 header ( "Location: friendRequest_action_output.php" );

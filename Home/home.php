@@ -56,6 +56,8 @@ else
 	</div>
 	<a href="../View Transactions/viewTransactions_front.php">View Transactions</a>
 	<br>
+	<a href="../View Status/viewStatus.php">View Status</a>
+	<br><br>
 	<a href="../Log Out/logOut.php">Log Out</a>
 	
 </body>
