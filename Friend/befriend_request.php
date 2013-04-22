@@ -106,9 +106,10 @@ $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":from", $_SESSION['id'] );
 $stmt->bindParam ( ":to", $frndID );
 $stmt->execute ( );
+/**/
 
 header ( "Location: befriend_request_output.php" );
 exit ( );
-/**/
+
 
 ?>
