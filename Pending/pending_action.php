@@ -4,6 +4,12 @@ require_once ( '../common/PHP/common_session.php' );
 require_once ( '../common/PHP/common_session validate.php' );
 require_once ( '../common/PHP/common_database.php' );
 
+if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/master/PHP/XSS%20Protection/XSS_encode.php' ) )
+{
+	require_once ( '../common/Fa773N_M0nK-library/PHP/XSS Protection/XSS_encode.php' );
+}
+
+
 ?>
 <?php
 
@@ -38,6 +44,24 @@ $query4 = "UPDATE `status` SET `status`=`status`+:amount WHERE `friendRelation`=
 $stmt4 = $dbh->prepare ( $query4 );
 $stmt4->bindParam ( ":amount", $finalAmount );
 $stmt4->bindParam ( ":frndRel", $frndRelID );
+
+/*
+	Generate a notification for it
+*/
+$query5 = "SELECT `username` FROM `user_auth` WHERE `ID`=:ID;";
+$stmt5 = $dbh->prepare ( $query5 );
+$stmt5->bindParam ( ":ID", $_SESSION['id'] );
+$stmt5->execute ( );
+$rslt5 = $stmt5->fetch ( );
+$currUserName = $rslt5['username'];
+
+$query6 = "INSERT INTO `notification` ( `user_id`, `message`, `status` ) VALUES ( :frndID, :message, '0' );";
+$stmt6 = $dbh->prepare ( $query6 );
+$stmt6->bindParam ( ":frndID", $to_notification );
+$stmt6->bindParam ( ":message", $message );
+
+$username = XSS_encode ( $currUserName, 0 )[1];
+/**/
 
 foreach ( $_POST['_'] as $ID=>$val )
 {
@@ -98,8 +122,44 @@ foreach ( $_POST['_'] as $ID=>$val )
 		
 		$stmt4->execute ( );
 		
-		echo $dbh->errorInfo()[2];
+		if ( $to == $_SESSION['id'] )
+		{
+			$to_notification = $from;
+		}
+		else if ( $from == $_SESSION['id'] )
+		{
+			$to_notification = $to;
+		}
+		else
+		{
+			echo "Technical error, something went wrong!";
+			exit ( );
+		}
+		$message = "<b>Transaction Approval : </b><u>$username</u> accepted a transaction.";
+		$stmt6->execute ( );		
+	}
+	else
+	{
+		$stmt2->execute ( );
+		$rslt2 = $stmt2->fetch ( );
+		$from = $rslt2['from'];
+		$to = $rslt2['to'];
 		
+		if ( $to == $_SESSION['id'] )
+		{
+			$to_notification = $from;
+		}
+		else if ( $from == $_SESSION['id'] )
+		{
+			$to_notification = $to;
+		}
+		else
+		{
+			echo "Technical error, something went wrong!";
+			exit ( );
+		}
+		$message = "<b>Transaction Rejection : </b><u>$username</u> rejected a transaction.";
+		$stmt6->execute ( );		
 	}
 }
 

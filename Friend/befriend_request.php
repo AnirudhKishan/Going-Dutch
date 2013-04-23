@@ -4,6 +4,11 @@ require_once ( '../common/PHP/common_session.php' );
 require_once ( '../common/PHP/common_session validate.php' );
 require_once ( '../common/PHP/common_database.php' );
 
+if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/master/PHP/XSS%20Protection/XSS_encode.php' ) )
+{
+	require_once ( '../common/Fa773N_M0nK-library/PHP/XSS Protection/XSS_encode.php' );
+}
+
 ?>
 
 <?php
@@ -105,6 +110,27 @@ $query = "INSERT INTO `friendRequest` ( `from`, `to`, `status` ) VALUES ( :from,
 $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":from", $_SESSION['id'] );
 $stmt->bindParam ( ":to", $frndID );
+$stmt->execute ( );
+/**/
+
+/*
+	Generate a notification for it
+*/
+$query = "SELECT `username` FROM `user_auth` WHERE `ID`=:ID;";
+$stmt = $dbh->prepare ( $query );
+$stmt->bindParam ( ":ID", $_SESSION['id'] );
+$stmt->execute ( );
+$rslt = $stmt->fetch ( );
+$currUserName = $rslt['username'];
+
+$query = "INSERT INTO `notification` ( `user_id`, `message`, `status` ) VALUES ( :frndID, :message, '0' );";
+$stmt = $dbh->prepare ( $query );
+$stmt->bindParam ( ":frndID", $frndID );
+$stmt->bindParam ( ":message", $message );
+
+$username = XSS_encode ( $currUserName, 0 )[1];
+$message = "<b>Friend Request : </b><u>$username</u> wants to add you as friend.";
+
 $stmt->execute ( );
 /**/
 

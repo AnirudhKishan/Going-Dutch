@@ -28,6 +28,24 @@ $query3 = "INSERT INTO `status` ( `friendRelation`, `status` ) VALUES ( :frndRel
 $stmt3 = $dbh->prepare ( $query3 );
 $stmt3->bindParam ( ":frndRelID", $frndRelID );
 
+/*
+	Generate a notification for it
+*/
+$query4 = "SELECT `username` FROM `user_auth` WHERE `ID`=:ID;";
+$stmt4 = $dbh->prepare ( $query4 );
+$stmt4->bindParam ( ":ID", $_SESSION['id'] );
+$stmt4->execute ( );
+$rslt4 = $stmt4->fetch ( );
+$currUserName = $rslt4['username'];
+
+$query5 = "INSERT INTO `notification` ( `user_id`, `message`, `status` ) VALUES ( :frndID, :message, '0' );";
+$stmt5 = $dbh->prepare ( $query5 );
+$stmt5->bindParam ( ":frndID", $frnd );
+$stmt5->bindParam ( ":message", $message );
+
+$username = XSS_encode ( $currUserName, 0 )[1];
+/**/
+
 foreach ( $_POST['frnd'] as $frnd=>$val )
 {
 	if ( $val == "0" )
@@ -60,7 +78,15 @@ foreach ( $_POST['frnd'] as $frnd=>$val )
 		
 		$frndRelID = $dbh->lastInsertId ( );
 		
-		$stmt3->execute ( );	
+		$stmt3->execute ( );
+		
+		$message = "<b>Friend Request Approval : </b><u>$username</u> accepted your friend request.";
+		$stmt5->execute ( );
+	}
+	else
+	{
+		$message = "<b>Friend Request Rejection : </b><u>$username</u> rejected your friend request.";
+		$stmt5->execute ( );
 	}
 }
 
