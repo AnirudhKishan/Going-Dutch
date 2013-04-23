@@ -31,7 +31,7 @@ $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":ID", $ID );
 $stmt->bindParam ( ":status", $status );
 
-$query2 = "SELECT `from`, `to`, `amount` FROM `transaction` WHERE `ID`=:ID";
+$query2 = "SELECT `from`, `to`, `amount`, `purpose` FROM `transaction` WHERE `ID`=:ID";
 $stmt2 = $dbh->prepare ( $query2 );
 $stmt2->bindParam ( ":ID", $ID );
 
@@ -88,6 +88,7 @@ foreach ( $_POST['_'] as $ID=>$val )
 		$from = $rslt2['from'];
 		$to = $rslt2['to'];
 		$amount = $rslt2['amount'];
+		$purpose = $rslt2['purpose'];
 		
 		$stmt3->execute();
 		$rslt3 = $stmt3->fetch();	
@@ -135,7 +136,9 @@ foreach ( $_POST['_'] as $ID=>$val )
 			echo "Technical error, something went wrong!";
 			exit ( );
 		}
-		$message = "<b>Transaction Approval : </b><u>$username</u> accepted a transaction.";
+		$amount = XSS_encode ( $amount, 0 )[1];
+		$purpose = XSS_encode ( $purpose, 0 )[1];
+		$message = "<b>Transaction Approval : </b><u>$username</u> accepted a transaction ( Amount : $amount, Purpose : $purpose ).";
 		$stmt6->execute ( );		
 	}
 	else
@@ -144,6 +147,8 @@ foreach ( $_POST['_'] as $ID=>$val )
 		$rslt2 = $stmt2->fetch ( );
 		$from = $rslt2['from'];
 		$to = $rslt2['to'];
+		$amount = $rslt2['amount'];
+		$purpose = $rslt2['purpose'];
 		
 		if ( $to == $_SESSION['id'] )
 		{
@@ -158,6 +163,8 @@ foreach ( $_POST['_'] as $ID=>$val )
 			echo "Technical error, something went wrong!";
 			exit ( );
 		}
+		$amount = XSS_encode ( $amount, 0 )[1];
+		$purpose = XSS_encode ( $purpose, 0 )[1];
 		$message = "<b>Transaction Rejection : </b><u>$username</u> rejected a transaction.";
 		$stmt6->execute ( );		
 	}

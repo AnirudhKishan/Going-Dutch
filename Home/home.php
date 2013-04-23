@@ -29,7 +29,64 @@ else
 {
 	$pendingDiv_dispaly = "block";
 }
+/**/
 
+/*
+	Generating Alerts
+*/
+$alerts = array ( );
+
+$query = "SELECT COUNT(*) FROM `friendRequest` WHERE `to`='" . $_SESSION['id'] . "' AND `status`='0';";
+$stmt = $dbh->prepare ( $query );
+$stmt->execute ( );
+$rslt = $stmt->fetch ( );
+if ( $rslt[0] > 0 )
+{
+	array_push ( $alerts, "You have pending friend requests." );
+}
+
+$query = "SELECT COUNT(*) FROM `transaction` WHERE `to`='" . $_SESSION['id'] . "' AND `status`='0';";
+$stmt = $dbh->prepare ( $query );
+$stmt->execute ( );
+$rslt = $stmt->fetch ( );
+if ( $rslt[0] > 0 )
+{
+	array_push ( $alerts, "There are transactions waiting for your approval." );
+}
+
+$alerts_output = "";
+foreach ( $alerts as $alert )
+{
+	$alerts_output .= "<li>" . $alert . "</li>\n\t\t\t\t\t\t";
+}
+/**/
+
+/*
+	Generating Notifications
+*/
+$notifications = array ( );
+
+$query = "SELECT `ID`, `message` FROM `notification` WHERE `user_id`='" . $_SESSION['id'] . "' AND `status`='0';";
+$stmt = $dbh->prepare ( $query );
+
+$query2 = "UPDATE `notification` SET `status`='1' WHERE `ID`=:ID ";
+$stmt2 = $dbh->prepare ( $query2 );
+$stmt2->bindParam ( ":ID", $ID );
+
+$stmt->execute ( );
+$rslt = $stmt->fetchAll ( );
+foreach ( $rslt as $notification )
+{
+	$ID = $notification['ID'];
+	$stmt2->execute ( );
+	array_push ( $notifications, $notification['message'] );
+}
+
+$notifications_output = "";
+foreach ( $notifications as $notification )
+{
+	$notifications_output .= "<li>" . $notification . "</li>\n\t\t\t\t\t\t";
+}
 /**/
 
 ?>
@@ -40,9 +97,35 @@ else
 
 <head>
 	<title>Home</title>
+	
+	<link rel="stylesheet" href="../common/CSS/temp4.css">
+	
 </head>
 
 <body>
+	
+	<div id="mycontainer">
+		<div id="notification">
+				<div id="alerts">
+					<b>Alerts</b><br>
+					<ul>
+					
+						<?php echo $alerts_output; ?>
+						
+					</ul>
+				</div>
+				<br><hr><br>
+				<div id="notifications">
+					<b>New Notifications</b><br>
+					<ul>
+					
+						<?php echo $notifications_output; ?>
+						
+					</ul>
+				</div>
+		</div>
+	</div>
+	
 	
 	<a href="../Friend/befriend_front.php">Add a User as Your Friend</a>
 	<br>
@@ -57,6 +140,8 @@ else
 	<a href="../View Transactions/viewTransactions_front.php">View Transactions</a>
 	<br>
 	<a href="../View Status/viewStatus.php">View Status</a>
+	<br>
+	<a href="../View Notifications/viewNotifications.php">View Notifications</a>
 	<br><br>
 	<a href="../Log Out/logOut.php">Log Out</a>
 	

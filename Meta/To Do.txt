@@ -1,12 +1,3 @@
-Develop Notification
-
-	-Notify when someone accepts friend request
-
-----------------------------------------------------------------------------------------------------
-
-Develop Alerts on Home Page ( for things like pending frnd rqsts, transacttions, etc. )
-
-----------------------------------------------------------------------------------------------------
 
 Develop email verification
 	-sign up
