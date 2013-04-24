@@ -49,6 +49,12 @@ else if ( $err_no == 4 )
 
 <head>
 	<title>Log In</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../common/bootstrap/css/theme/bootstrap.min.css" media="screen">
+	
+	<link rel="stylesheet" href="../common/CSS/myCSS.css">
+	
 </head>
 
 <body>
@@ -79,6 +85,9 @@ else if ( $err_no == 4 )
 	<br><br>
 	
 	Not Registered? <a href="../Sign Up/signUp_front.php">Sign Up</a>
+	
+	<script src="../common/bootstrap/jQuery/jquery.js"></script>
+	<script src="../common/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 
