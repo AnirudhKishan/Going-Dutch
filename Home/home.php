@@ -61,34 +61,6 @@ foreach ( $alerts as $alert )
 }
 /**/
 
-/*
-	Generating Notifications
-*/
-$notifications = array ( );
-
-$query = "SELECT `ID`, `message` FROM `notification` WHERE `user_id`='" . $_SESSION['id'] . "' AND `status`='0';";
-$stmt = $dbh->prepare ( $query );
-
-$query2 = "UPDATE `notification` SET `status`='1' WHERE `ID`=:ID ";
-$stmt2 = $dbh->prepare ( $query2 );
-$stmt2->bindParam ( ":ID", $ID );
-
-$stmt->execute ( );
-$rslt = $stmt->fetchAll ( );
-foreach ( $rslt as $notification )
-{
-	$ID = $notification['ID'];
-	$stmt2->execute ( );
-	array_push ( $notifications, $notification['message'] );
-}
-
-$notifications_output = "";
-foreach ( $notifications as $notification )
-{
-	$notifications_output .= "<li>" . $notification . "</li>\n\t\t\t\t\t\t";
-}
-/**/
-
 ?>
 
 <!DOCTYPE html>
@@ -100,9 +72,16 @@ foreach ( $notifications as $notification )
 	
 	<link rel="stylesheet" href="../common/CSS/temp4.css">
 	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../common/bootstrap/css/theme/bootstrap.min.css" media="screen">
+	
+	<link rel="stylesheet" href="../common/CSS/myCSS.css">
+	
 </head>
 
 <body>
+
+	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
 	<div id="mycontainer">
 		<div id="notification">
@@ -144,6 +123,9 @@ foreach ( $notifications as $notification )
 	<a href="../View Notifications/viewNotifications.php">View Notifications</a>
 	<br><br>
 	<a href="../Log Out/logOut.php">Log Out</a>
+	
+	<script src="../common/bootstrap/jQuery/jquery.js"></script>
+	<script src="../common/bootstrap/js/bootstrap.min.js"></script>
 	
 </body>
 

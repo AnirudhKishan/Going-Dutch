@@ -11,9 +11,17 @@ require_once ( '../common/PHP/common_session validate.php' );
 
 <head>
 	<title>View Transactions</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../common/bootstrap/css/theme/bootstrap.min.css" media="screen">
+	
+	<link rel="stylesheet" href="../common/CSS/myCSS.css">
+	
 </head>
 
 <body>
+
+	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
 	<form action="viewTransactions.php" method="post">
 		<input type="checkbox" name="type_payer" id="type_payer" value="1"><label for="type_payer">Transaction where you payed</label>
@@ -32,6 +40,9 @@ require_once ( '../common/PHP/common_session validate.php' );
 		
 		<input type="submit">
 	</form>
+	
+	<script src="../common/bootstrap/jQuery/jquery.js"></script>
+	<script src="../common/bootstrap/js/bootstrap.min.js"></script>
 	
 </body>
 

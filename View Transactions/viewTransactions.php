@@ -189,9 +189,17 @@ else
 	<title>Pending Transactions</title>
 	
 	<link rel="stylesheet" href="../common/CSS/temp3.css">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../common/bootstrap/css/theme/bootstrap.min.css" media="screen">
+	
+	<link rel="stylesheet" href="../common/CSS/myCSS.css">
+	
 </head>
 
 <body>
+
+	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
 	<div class="table">
 	
@@ -211,6 +219,9 @@ else
 	<br><br>
 	
 	<a href="../Home/home.php">Go back to home</a>
+	
+	<script src="../common/bootstrap/jQuery/jquery.js"></script>
+	<script src="../common/bootstrap/js/bootstrap.min.js"></script>
 	
 </body>
 

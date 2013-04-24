@@ -16,3 +16,6 @@ wrt. Notification
 		1	:	Read
 
 It has to be verified that anything that goes into the message coloumn of `notification` is XSS Secure
+
+The root of the website has to be mentioned on ly at: -
+	/common/HTML/header.html

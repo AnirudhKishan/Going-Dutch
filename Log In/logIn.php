@@ -2,6 +2,11 @@
 
 require_once ( '../common/PHP/common_database.php' );
 
+if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/master/PHP/XSS%20Protection/XSS_encode.php' ) )
+{
+	require_once ( '../common/Fa773N_M0nK-library/PHP/XSS Protection/XSS_encode.php' );
+}
+
 ?>
 
 <?php
@@ -29,6 +34,7 @@ else
 		
 		$_SESSION['logged-in'] = true;
 		$_SESSION['id'] = $rslt['ID'];
+		$_SESSION['name'] = XSS_encode ( $rslt['username'] )[1];
 		
 		$err_no = 0;
 	}
