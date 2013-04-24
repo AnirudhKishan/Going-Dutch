@@ -13,10 +13,14 @@ if ( ! @include_once ( 'https://raw.github.com/Fa773NM0nK/Fa773N_M0nK-library/ma
 
 $err_no = 0;
 
-$query = "SELECT * FROM `user_auth` WHERE `username`=:username";
+$query = "SELECT `ID`, `password` FROM `user_auth` WHERE `username`=:username";
 $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":username", $_POST['username'] );
 $stmt->execute ( );
+
+$query2 = "SELECT `name` FROM `user_data` WHERE `ID`=:ID";
+$stmt2 = $dbh->prepare ( $query2 );
+$stmt2->bindParam ( ":ID", $ID );
 
 if ( $stmt->rowCount ( ) == 0 )
 {
@@ -33,8 +37,12 @@ else
 		session_start ( );
 		
 		$_SESSION['logged-in'] = true;
-		$_SESSION['id'] = $rslt['ID'];
-		$_SESSION['name'] = XSS_encode ( $rslt['username'] )[1];
+		$_SESSION['id'] = $ID = $rslt['ID'];
+		
+		$stmt2->execute ( );
+		$rslt2 = $stmt2->fetch ( );
+		
+		$_SESSION['name'] = XSS_encode ( $rslt2['name'] )[1];
 		
 		$err_no = 0;
 	}

@@ -26,6 +26,13 @@ else
 	$randomString = "F()(K()";
 	$stmt->bindParam ( ":password", hash ( "sha256", ( $_POST['password'] . $randomString ) ) );
 	$stmt->execute ( );
+	
+	$query = "INSERT INTO `user_data` ( `ID`, `name`, `email` ) VALUES ( :ID, :name, :email );";
+	$stmt = $dbh->prepare ( $query );
+	$stmt->bindParam ( ":ID", $dbh->lastInsertId ( ) );
+	$stmt->bindParam ( ":name", $_POST['name']  );
+	$stmt->bindParam ( ":email", $_POST['email']  );
+	$stmt->execute ( );
 		
 	$err_no = 0;
 }
