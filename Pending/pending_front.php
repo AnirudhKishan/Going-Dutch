@@ -39,16 +39,16 @@ else
 		
 		$ID = $trans['ID'];
 		
-		$output .= "<div class=\"row\">\n";
-		$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['purpose'], 0 )[1] . "</div>\n";
-		$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['amount'], 0 )[1] . "</div>\n";
-		$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['date'], 0 )[1] . "</div>\n";
-		$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $fromName, 0 )[1] . "</div>\n";
-		$output .= "\t\t\t<div class=\"cell\">" . "<input type=\"radio\" name=\"_[$ID]\" value=\"1\" checked=\"checked\">" .  "</div>\n";
-		$output .= "\t\t\t<div class=\"cell\">" . "<input type=\"radio\" name=\"_[$ID]\" value=\"-1\">" .  "</div>\n";
-		$output .= "\t\t</div>\n";
+		$output .= "<tr class=\"pending\">\n";
+		$output .= "\t\t\t\t\t<td>" . XSS_encode ( $trans['date'], 0 )[1] . "</td>\n";
+		$output .= "\t\t\t\t\t<td>" . XSS_encode ( $trans['amount'], 0 )[1] . "</td>\n";
+		$output .= "\t\t\t\t\t<td>" . XSS_encode ( $fromName, 0 )[1] . "</td>\n";
+		$output .= "\t\t\t\t\t<td>" . XSS_encode ( $trans['purpose'], 0 )[1] . "</td>\n";
+		$output .= "\t\t\t\t\t<td>" . "<input type=\"radio\" name=\"_[$ID]\" id=\"_[$ID]_1\" value=\"1\" class=\"hide\"><label for=\"_[$ID]_1\" class=\"smallBox inline\"><a class=\"btn btn-success\">Accept</a></label>" .  "</td>\n";
+		$output .= "\t\t\t\t\t<td>" . "<input type=\"radio\" name=\"_[$ID]\" id=\"_[$ID]_-1\" value=\"-1\" class=\"hide\"><label for=\"_[$ID]_-1\" class=\"smallBox inline\"><a class=\"btn btn-danger\">Reject</a></label>" .  "</td>\n";
+		$output .= "\t\t\t\t</tr>\n";
 		
-		$output .= "\t\t";
+		$output .= "\t\t\t\t";
 	}
 }
 
@@ -76,18 +76,32 @@ else
 	
 	<form action="pending_action.php" method="post">
 		
-		<div class="row">
-			<div class="cell"><b>Purpose</b></div>
-			<div class="cell"><b>Amount</b></div>
-			<div class="cell"><b>Date</b></div>
-			<div class="cell"><b>From</b></div>
-			<div class="cell"><b>Accept</b></div>
-			<div class="cell"><b>Reject</b></div>
-		</div>
+		<table class="table table-striped table-hover">
 		
-		<?php echo $output; ?>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>From</th>
+					<th>Purpose</th>
+					<th>Accept</th>
+					<th>Reject</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				
+				<?php echo $output; ?>
+				
+			</tbody>
 		
-		<input type="submit">
+		</table>
+		
+		<br><hr><br>
+		
+		<div class="container-fluid"><div class="row-fluid">
+			<button type="submit" class="offset5 span2 center btn btn-primary btn-large">Go</button>
+		</div></div>
 		
 	</form>
 	

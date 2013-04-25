@@ -11,7 +11,7 @@ if ( isset ( $_GET['err_no'] ) )
 {
 	switch ( $_GET['err_no'] )
 	{
-		case 1	:	$output = "You have no pending transactions";
+		case 1	:	$output = "<div class=\"offset3 span6 alert alert-info text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>Hurrah!</strong><br>You have no Pending transactions.</div>";
 							break;
 		
 		default	:	$output = "Technical error, something went wrong!";
@@ -19,7 +19,7 @@ if ( isset ( $_GET['err_no'] ) )
 }
 else
 {
-	$output = "Pending Transactions processed successfully";
+	$output = "<div class=\"offset3 span6 alert alert-success text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>Success!</strong><br>Pending transactions processed successfully</div>";
 }
 
 ?>
@@ -42,11 +42,23 @@ else
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
+	<br><br>
+	
+	<div class="container-fluid"><div class="row-fluid">
+	
 	<?php echo $output; ?>
+	
+	</div></div>
 	
 	<br><br>
 	
-	<a href="../Home/home.php">Go back to home</a>
+	<div class="row-fluid text-center">
+					
+		<br><br>
+		
+		<a href="../Home/home.php" class="btn btn-large btn-primary">Go Home</a>
+
+	</div>
 	
 	<script src="../common/bootstrap/jQuery/jquery.js"></script>
 	<script src="../common/bootstrap/js/bootstrap.min.js"></script>

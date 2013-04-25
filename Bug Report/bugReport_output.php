@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Record Success</title>
+	<title>Report Success</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../common/bootstrap/css/theme/bootstrap.min.css" media="screen">
@@ -24,7 +24,7 @@
 	
 			<div class="alert alert-success offset3 span6">
 				<button data-dismiss="alert" class="close" type="button">&times;</button>
-				<strong>Success!</strong><br>Transaction Recorded successfully!
+				<strong>Success!</strong><br>Bug Report Submitted successfully! Thanks!
 			</div>
 			
 		</div>

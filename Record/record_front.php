@@ -41,7 +41,9 @@ $query = "SELECT `username` FROM `user_auth` WHERE `ID`=:ID;";
 $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":ID", $frndID );
 
-$content = array ( );
+$output = "";
+$data = "";
+$divIDArray = "Array ( ";
 foreach ( $frndList as $key=>$frndID )
 {
 	$stmt->execute ( );
@@ -49,14 +51,16 @@ foreach ( $frndList as $key=>$frndID )
 	
 	$frndName = XSS_encode ( $rslt[0], 0 )[1];
 	
-	array_push ( $content , "<input type=\"checkbox\" name=\"involved[]\" id=\"frnd_$key\" value=\"$frndID\"><label for=\"frnd_$key\">$frndName</label>" );
+	$data .= "\"" . XSS_encode ( $frndName, 0 )[1] . "\",";
+	
+	$output .= "<div style=\"display: inline;\" id=\"$frndName\">\n\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"involved[]\" id=\"frnd_$key\" value=\"$frndID\" style=\"display: none;\"><label class=\"box\" for=\"frnd_$key\">$frndName</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t";
+	
+	$divIDArray .= "\"$frndName\", ";
 }
+$divIDArray = rtrim ( $divIDArray, ', ' );
+$divIDArray .= " );\n";
 
-$output = "";
-foreach ( $content as $val )
-{
-	$output .= "<div class=\"box\">\n\t\t\t\t$val\n\t\t\t</div>\n\t\t\t";
-}
+$data = rtrim ( $data, ',' );
 
 ?>
 
@@ -74,51 +78,109 @@ foreach ( $content as $val )
 	
 	<link rel="stylesheet" href="../common/CSS/myCSS.css">
 	
+	<script>
+	divIDs = <?php echo $divIDArray; ?>
+	</script>
+	
 </head>
 
 <body>
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
-	<form action="record.php" method="post">
+	<br><br>
+	
+	<form class="form-horizontal" action="record.php" method="post">
 		
-		<label for="amount">Amount : </label>
-		<input id="amount" name="amount">
+		<div class="container-fluid">
 		
-		<br>
+			<div class="row-fluid">
+			
+				<div class="offset1 span4">
+				
+					<div class="control-group">
+						<label for="amount" class="control-label">Amount : </label>
+						<div class="controls">
+							<input type="text" name="amount" id="amount">
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label for="date" class="control-label">Date of Transaction : </label>
+						<div class="controls">
+							<input type="date" name="date" id="date">
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label for="purpose" class="control-label">Purpose :</label>
+						<div class="controls">
+							<input type="text" name="purpose" id="purpose">
+						</div>
+					</div>
+					
+					<div class="control-group border">
+						<div class="text-center">How is the amount distributed?</div>
+						<br>
+						
+						<div class="container-fluid"><div class="row-fluid">
+						
+						<div class="offset1 span4">
+							<input type="radio" name="distribution" id="equally" value="1" checked="checked" class="hide"><label for="equally" class="pull-left pad-small text-center red"><img src="../common/images/equally.png" class="long-icon">Equally</label>
+						</div>
+						
+						<div class="offset2 span4">
+						<input type="radio" name="distribution" id="individually" value="2" class="hide"><label for="individually" class="pull-right pad-small text-center red"><img src="../common/images/individually.png" class="long-icon">Individually</label>
+						</div>
+						
+						</div></div>
+						
+					</div>
+				
+				</div>
+				
+				<div class="offset2 span4">
+				
+					Friends involved in this transaction: -
+					
+					<br><br>
+					
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-search"></i></span>
+						<!--
+						<input type="text" data-provide="typeahead" data-source='[<?php echo $data; ?>]' data-items="5" autocomplete="off" style="margin: 0 auto;" id="searchTerm" onKeyUp="divVisibility()">
+						-->
+						<input type="text" id="searchTerm" onKeyUp="divVisibility()">
+					</div>
+					
+					<br><br>
 		
-		<label for="date">Date of Transaction : </label>
-		<input type="date" id="date" name="date">
-		
-		<br>
-		
-		How is the amount distributed?
-		<input type="radio" name="distribution" id="equally" value="1" checked="checked"><label for="equally">Divided equally</label>
-		<input type="radio" name="distribution" id="individually" value="2"><label for="individually">Individually</label>
-		
-		<br>
-		
-		Friends involved in this transaction: -
-		
-		<div>
-		
-			<?php echo $output; ?>
+					<div>
+
+						<?php echo $output; ?>
+								
+					</div>
+				
+				</div>
+			
+			</div>
+			
+			<div class="row-fluid text-center">
+			
+				<hr>
+				
+				<button type="submit" class="btn btn-large btn-primary">Record Transaction</button>
+			
+			</div>
 		
 		</div>
-		
-		<br>
-		
-		<label for="purpose">Purpose : </label>
-		<input id="purpose" name="purpose">
-		
-		<br>
-		
-		<input type="submit">
 		
 	</form>
 	
 	<script src="../common/bootstrap/jQuery/jquery.js"></script>
 	<script src="../common/bootstrap/js/bootstrap.min.js"></script>
+	
+	<script src="../common/JS/divVisibility.js"></script>
 	
 </body>
 

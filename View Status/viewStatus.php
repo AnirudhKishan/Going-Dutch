@@ -73,8 +73,11 @@ $ourGuy = $rslt['username'];
 
 <?php
 
+$final = array ( );
+
+//profit
 $outputProfit = "";
-foreach ( $info as $val )
+foreach ( $info as $key=>$val )
 {
 	if ( $val[0]==$ourGuy && $val[2]<0 )
 	{
@@ -82,6 +85,7 @@ foreach ( $info as $val )
 		$outputProfit .= "\t<div class=\"cell\">" . $val[1] . "</div>\n";
 		$outputProfit .= "\t<div class=\"cell\">" . ( -1 * $val[2] ) . "</div>\n";
 		$outputProfit .= "</div>\n\n";
+		array_push ( $final, array ( $val[1], abs ( $val[2] ) ) );
 	}
 	
 	if ( $val[1]==$ourGuy && $val[2]>0 )
@@ -90,9 +94,11 @@ foreach ( $info as $val )
 		$outputProfit .= "\t<div class=\"cell\">" . $val[0] . "</div>\n";
 		$outputProfit .= "\t<div class=\"cell\">" . $val[2] . "</div>\n";
 		$outputProfit .= "</div>\n\n";
+		array_push ( $final, array ( $val[0], abs ( $val[2] ) ) );
 	}
 }
 
+//no profit - no loss
 $outputNeutral = "";
 foreach ( $info as $val )
 {
@@ -102,6 +108,8 @@ foreach ( $info as $val )
 		$outputNeutral .= "\t<div class=\"cell\">" . $val[1] . "</div>\n";
 		$outputNeutral .= "\t<div class=\"cell\">" . $val[2] . "</div>\n";
 		$outputNeutral .= "</div>\n\n";
+		
+		array_push ( $final, array ( $val[1], $val[2] ) );
 	}
 	
 	if ( $val[1]==$ourGuy && $val[2]==0 )
@@ -110,9 +118,11 @@ foreach ( $info as $val )
 		$outputNeutral .= "\t<div class=\"cell\">" . $val[0] . "</div>\n";
 		$outputNeutral .= "\t<div class=\"cell\">" . $val[2] . "</div>\n";
 		$outputNeutral .= "</div>\n\n";
+		array_push ( $final, array ( $val[0], $val[2] ) );
 	}
 }
 
+//loss
 $outputLoss = "";
 foreach ( $info as $val )
 {
@@ -122,6 +132,7 @@ foreach ( $info as $val )
 		$outputLoss .= "\t<div class=\"cell\">" . $val[1] . "</div>\n";
 		$outputLoss .= "\t<div class=\"cell\">" . $val[2] . "</div>\n";
 		$outputLoss .= "</div>\n\n";
+		array_push ( $final, array ( $val[1], ( -1 * abs ( $val[2] ) ) ) );
 	}
 	
 	if ( $val[1]==$ourGuy && $val[2]<0 )
@@ -130,7 +141,38 @@ foreach ( $info as $val )
 		$outputLoss .= "\t<div class=\"cell\">" . $val[0] . "</div>\n";
 		$outputLoss .= "\t<div class=\"cell\">" . ( -1 * $val[2] ) . "</div>\n";
 		$outputLoss .= "</div>\n\n";
+		array_push ( $final, array ( $val[0], ( -1 * abs ( $val[2] ) ) ) );
 	}
+}
+
+$output = "";
+
+usort ( $final, function($a, $b) { return $a[1] - $b[1]; } );
+
+foreach ( $final as $val )
+{
+	if ( $val[1] > 0 )
+	{
+		$tr_class = "success";
+	}
+	else if ( $val[1] == 0 )
+	{
+		$tr_class = "";
+	}
+	else if ( $val[1] < 0 )
+	{
+		$tr_class = "error";
+	}
+	else
+	{
+		echo "Technical error, something went wrong!";
+		exit ( );
+	}
+	
+	$output .= "<tr class=\"$tr_class\">\n";
+	$output .= "\t<td style=\"text-align: right;\">" . $val[0] . "</td>\n";
+	$output .= "\t<td>" . abs ( $val[1] ) . "</td>\n";
+	$output .= "</tr>\n\n";
 }
 
 ?>
@@ -155,31 +197,48 @@ foreach ( $info as $val )
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
-	People who owe you money
-	<br>	
-	<div class="table">
-		<?php echo $outputProfit; ?>
+	<div class="container-fluid">
+	
+		<div class="row-fluid">
+	
+			<table class="table table-striped table-hover">
+	
+				<caption>
+					<div class="container-fluid"><div class="row-fluid">
+					<span class="offset2 span3" style="background-color: rgba(0, 255, 0, 0.3); padding-top: 5px">Money owed to you</span>
+					<span class="offset2 span3" style="background-color: rgba(255, 0, 0, 0.3); padding-top: 5px">Money you owe</span>
+					</div></div>
+			
+					<br><hr><br>
+			
+				</caption>
+		
+				<thead  class="text-big">
+					<tr>
+						<th style="text-align: right;">Friend</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+		
+				<tbody class="text-big">
+		
+					<?php echo $output; ?>
+			
+				</tbody>
+	
+			</table>
+		
+		</div>
+	
+		<hr>
+	
+		<div class="row-fluid">
+	
+			<a href="../Home/home.php" class="offset5 span2 btn btn-primary btn-large">Go Home</a>
+		
+		</div>
+	
 	</div>
-	
-	<br><br>
-	
-	People, with whom, everything is settled
-	<br>	
-	<div class="table">
-		<?php echo $outputNeutral; ?>
-	</div>
-	
-	<br><br>
-	
-	People to whom you owe money
-	<br>	
-	<div class="table">
-		<?php echo $outputLoss; ?>
-	</div>
-	
-	<br><br>
-	
-	<a href="../Home/home.php">Go back to home</a>
 	
 	<script src="../common/bootstrap/jQuery/jquery.js"></script>
 	<script src="../common/bootstrap/js/bootstrap.min.js"></script>

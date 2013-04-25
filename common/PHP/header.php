@@ -24,7 +24,28 @@ require_once ( 'home.php' );
 <div class="navbar">
   <div class="navbar-inner background-color-blue-gradient">
   
-		<a class="brand" href="<?php echo $HOME; ?>/">Going Dutch</a>
+		<a class="brand" href="<?php echo $HOME; ?>/">Going Dutch &alpha;</a>
+		
+		<ul class="nav nav-pills">
+		
+			<li class="divider-vertical"></li>		
+		
+			<li>
+				<a href="<?php echo $HOME; ?>/Home/home.php">Home</a>
+			<li>
+			
+			<li class="divider-vertical"></li>
+			
+			<li>
+				<a href="../Bug Report/bugReport_front.php">
+					<img src="../common/images/bug.png" style="height: 20px; width: 20px;">
+					Bug Report
+				</a>
+			</li>
+			
+			<li class="divider-vertical"></li>
+		
+		</ul>
 		
 		<ul class="nav nav-pills pull-right">
 		

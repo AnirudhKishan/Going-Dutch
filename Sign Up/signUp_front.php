@@ -103,7 +103,7 @@ if ( $err_no == 1 )
 
 				<div class="control-group">
 					<div class="controls">
-						<button type="submit" class="btn btn-primary">Sign Up</button>
+						<button type="submit" class="btn btn-large btn-primary">Sign Up</button>
 					</div>
 				</div>
 			

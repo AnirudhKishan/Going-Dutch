@@ -43,11 +43,33 @@ else
 	$output = "";
 	foreach ( $reqFrndNames as $key=>$var )
 	{
-		$output .= "\n\t\t\t\t<div class=\"row\">\n";
-		$output .= "\n\t\t\t\t\t<div class=\"cell\">$var</div>";
-		$output .= "\n\t\t\t\t\t<div class=\"cell\"><input type=\"radio\" name=\"frnd[" . $rslt[$key][0] . "]\" value=\"1\"></div>";
-		$output .= "\n\t\t\t\t\t<div class=\"cell rightmost\"><input type=\"radio\" name=\"frnd[" . $rslt[$key][0] . "]\" value=\"0\"></div>";
-		$output .= "\n\n\t\t\t\t</div>\n";
+		if ( ( $key % 3 ) == 0 )
+		{
+			$output .= "\n\t\t\t\t<div class=\"row-fluid\">\n\n";
+			$offset = 1;
+		}
+		else
+		{
+			$offset = 2;
+		}
+		
+		$output .= "\t\t\t\t\t<div class=\"offset$offset span2 text-center border pad\">\n";
+		$output .= "\t\t\t\t\t\t<h1>$var</h1>\n";
+		$output .= "\t\t\t\t\t\t<input type=\"radio\" class=\"hide\" name=\"frnd[" . $rslt[$key][0] . "]\" value=\"1\" id=\"" . $rslt[$key][0] . "_1\">\n";
+		$output .= "\t\t\t\t\t\t<label for=\"" . $rslt[$key][0] . "_1\" class=\"pull-left pad-small\" style=\"display: inline\"><a class=\"btn btn-success\">Accept</a></label>\n";
+		$output .= "\t\t\t\t\t\t<input type=\"radio\" class=\"hide\" name=\"frnd[" . $rslt[$key][0] . "]\" value=\"0\" id=\"" . $rslt[$key][0] . "_0\">\n";
+		$output .= "\t\t\t\t\t\t<label for=\"" . $rslt[$key][0] . "_0\" class=\"pull-right pad-small\" style=\"display: inline\"><a class=\"btn btn-danger\">Reject</a></label>\n";
+		$output .= "\t\t\t\t\t</div>\n";
+		
+		if ( ( ( $key + 1 ) % 3 ) == 0 )
+		{
+			$output .= "\n\t\t\t\t</div>\n";
+			$offset = 1;
+		}
+		else
+		{
+			$offset = 2;
+		}
 	}
 }
 
@@ -73,9 +95,11 @@ else
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
+	<br><br>
+	
 	<div <?php echo $rqsts_displayProperty; ?>>
 	
-		Friend Requests
+		<h1 class="text-center">Friend Requests</h1>
 	
 		<br><br>
 	
@@ -83,19 +107,15 @@ else
 	
 			<form action="friendRequest_action.php" method="post">
 		
-				<div class="row">
-	
-					<div class="cell">From</div>
-					<div class="cell">Accept</div>
-					<div class="cell rightmost">Reject</div>		
-	
+				<div class="container-fluid">
+				
+					<?php if ( isset ( $output ) ) echo $output; ?>
+					
 				</div>
-		
-				<?php if ( isset ( $output ) ) echo $output; ?>
 			
-				<br><br>
+				<br><hr><br>
 			
-				<input type="submit">
+				<button class="btn btn-primary btn-large center" type="submit">Go!</button>
 		
 			</form>
 	

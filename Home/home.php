@@ -34,15 +34,21 @@ else
 /*
 	Generating Alerts
 */
-$alerts = array ( );
-
 $query = "SELECT COUNT(*) FROM `friendRequest` WHERE `to`='" . $_SESSION['id'] . "' AND `status`='0';";
 $stmt = $dbh->prepare ( $query );
 $stmt->execute ( );
 $rslt = $stmt->fetch ( );
 if ( $rslt[0] > 0 )
 {
-	array_push ( $alerts, "You have pending friend requests." );
+	$frnd_disable = "";
+	$frnd_text = "Accept / Reject Friend Requests";
+	$frndImg_aHref = "../Friend/friendRequest_action_front.php";
+}
+else
+{
+	$frnd_disable = "disable";
+	$frnd_text = "No Pending Friend Request";
+	$frndImg_aHref = "#";
 }
 
 $query = "SELECT COUNT(*) FROM `transaction` WHERE `to`='" . $_SESSION['id'] . "' AND `status`='0';";
@@ -51,13 +57,15 @@ $stmt->execute ( );
 $rslt = $stmt->fetch ( );
 if ( $rslt[0] > 0 )
 {
-	array_push ( $alerts, "There are transactions waiting for your approval." );
+	$trns_disable = "";
+	$trns_text = "Accept / Reject Transactions";
+	$trns_aHref = "../Pending/pending_front.php";
 }
-
-$alerts_output = "";
-foreach ( $alerts as $alert )
+else
 {
-	$alerts_output .= "<li>" . $alert . "</li>\n\t\t\t\t\t\t";
+	$trns_disable = "disable";
+	$trns_text = "No Pending Transactions";
+	$trns_aHref = "#";
 }
 /**/
 
@@ -83,46 +91,74 @@ foreach ( $alerts as $alert )
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
-	<div id="mycontainer">
-		<div id="notification">
-				<div id="alerts">
-					<b>Alerts</b><br>
-					<ul>
-					
-						<?php echo $alerts_output; ?>
-						
-					</ul>
-				</div>
-				<br><hr><br>
-				<div id="notifications">
-					<b>New Notifications</b><br>
-					<ul>
-					
-						<?php echo $notifications_output; ?>
-						
-					</ul>
-				</div>
-		</div>
-	</div>
-	
-	
-	<a href="../Friend/befriend_front.php">Add a User as Your Friend</a>
-	<br>
-	<a href="../Friend/friendRequest_action_front.php">Accept/Reject Friend Request</a>
-	<br>
-	<a href="../Record/record_front.php">Record a New Transaction</a>
-	<br>
-	<div id="pending" style="display: <?php echo $pendingDiv_display; ?>">
-		<a href="../Pending/pending_front.php">Accept/Reject Pending Transaction(s)</a>
-		<br>
-	</div>
-	<a href="../View Transactions/viewTransactions_front.php">View Transactions</a>
-	<br>
-	<a href="../View Status/viewStatus.php">View Status</a>
-	<br>
-	<a href="../View Notifications/viewNotifications.php">View Notifications</a>
 	<br><br>
-	<a href="../Log Out/logOut.php">Log Out</a>
+	
+	<div class="container-fluid">	
+	
+		<div class="row-fluid">
+		
+			<a href="../View Status/viewStatus.php" class="btn btn-large btn-inverse offset1 span10">
+				View Current Status
+			</a>
+			
+		</div>
+		
+		<hr>
+		
+		<div class="row-fluid">
+		
+			<ul class="thumbnails text-center text-info">
+			
+				<li class="offset2 span3">
+					<a href="../Friend/befriend_front.php" class="thumbnail">
+					<img src="../common/images/addFriend.png" data-src="holder.js/100x100" style="width: 100px; height: 100px;">
+					</a>
+					Add Friend
+				</li>
+				
+				<li class="offset2 span3 <?php echo $frnd_disable; ?>">
+					<a href="<?php echo $frndImg_aHref; ?>" class="thumbnail"">
+					<img src="../common/images/accept-reject.png" data-src="holder.js/100x100" style="width: 100px; height: 100px;" tooltip="<?php echo $frnd_tooltip; ?>">
+					</a>
+					<?php echo $frnd_text; ?>
+				</li>
+				
+			</ul>
+		
+		</div>
+		
+		<hr>
+		
+		<div class="row-fluid">
+		
+			<ul class="thumbnails text-center text-info">
+			
+				<li class="offset1 span2">
+					<a href="../Record/record_front.php" class="thumbnail">
+					<img src="../common/images/newTransaction.png" data-src="holder.js/100x100" style="width: 100px; height: 100px;">
+					</a>
+					Record New Transaction
+				</li>
+				
+				<li class="offset2 span2 <?php echo $trns_disable; ?>">
+					<a href="<?php echo $trns_aHref; ?>" class="thumbnail">
+					<img src="../common/images/pendingTrns.png" data-src="holder.js/100x100" style="width: 100px; height: 100px;">
+					</a>
+					<?php echo $trns_text; ?>
+				</li>
+				
+				<li class="offset2 span2">
+					<a href="../View Transactions/viewTransactions_front.php"" class="thumbnail">
+					<img src="../common/images/viewTrns.jpg" data-src="holder.js/100x100" style="width: 100px; height: 100px;">
+					</a>
+					View Transactions
+				</li>
+				
+			</ul>
+		
+		</div>
+		
+	</div>
 	
 	<script src="../common/bootstrap/jQuery/jquery.js"></script>
 	<script src="../common/bootstrap/js/bootstrap.min.js"></script>

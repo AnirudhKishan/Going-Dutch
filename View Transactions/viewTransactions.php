@@ -57,7 +57,7 @@ else
 
 	if ( isset ( $_POST['type_payee'] ) )
 	{
-		put ( 0, "WHERE", "OR", $firstFlag, $query );
+		put ( 0, "WHERE (", "OR", $firstFlag, $query );
 	
 		$query .= " `to`='" . $_SESSION['id'] . "'";
 	}
@@ -105,12 +105,12 @@ if ( $firstFlag == false )
 	$query .= " )";
 }
 
-$query .= ";";
+$query .= " ORDER BY `date` DESC;";
 
 
 if ( $anyFlag == false )
 {
-	$output = "No type of transaction selected";
+	$output = "<div class=\"alert alert-warning text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>Problem!</strong><br>No type of transaction selected</div>";
 	$headingDiv_style = " style=\"display: none\"";
 }
 else
@@ -123,7 +123,7 @@ else
 
 	if ( $stmt->rowCount ( ) == 0 )
 	{
-		$output = "No transactions match the given criterion";
+		$output = "<div class=\"alert alert-warning text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>Problem!</strong><br>No transactions match the given criterion</div>";
 		$headingDiv_style = " style=\"display: none\"";
 	}
 	else
@@ -149,15 +149,15 @@ else
 		
 			if ( $trans['status'] == -1 )
 			{
-				$status = "Rejected";
+				$tr_class = "error";
 			}
 			else if ( $trans['status'] == 0 )
 			{
-				$status = "Pending";
+				$tr_class = "warning";
 			}
 			else if ( $trans['status'] == 1 )
 			{
-				$status = "Approved";
+				$tr_class = "success";
 			}
 			else
 			{
@@ -165,14 +165,13 @@ else
 				exit ( );
 			}
 		
-			$output .= "<div class=\"row\">\n";
-			$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['purpose'], 0 )[1] . "</div>\n";
-			$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['amount'], 0 )[1] . "</div>\n";
-			$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $trans['date'], 0 )[1] . "</div>\n";
-			$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $fromName, 0 )[1] . "</div>\n";
-			$output .= "\t\t\t<div class=\"cell\">" . XSS_encode ( $toName, 0 )[1] . "</div>\n";
-			$output .= "\t\t\t<div class=\"cell\">" . $status . "</div>\n";
-			$output .= "\t\t</div>\n";
+			$output .= "<tr class=\"$tr_class\">\n";
+			$output .= "\t\t\t<td>" . XSS_encode ( $trans['date'], 0 )[1] . "</td>\n";
+			$output .= "\t\t\t<td>" . XSS_encode ( $trans['amount'], 0 )[1] . "</td>\n";
+			$output .= "\t\t\t<td>" . XSS_encode ( $fromName, 0 )[1] . "</td>\n";
+			$output .= "\t\t\t<td>" . XSS_encode ( $toName, 0 )[1] . "</td>\n";
+			$output .= "\t\t\t<td>" . XSS_encode ( $trans['purpose'], 0 )[1] . "</td>\n";
+			$output .= "\t\t</tr>\n";
 		
 			$output .= "\t\t";
 
@@ -201,24 +200,37 @@ else
 
 	<?php include_once ( "../common/PHP/header.php" ); ?>
 	
-	<div class="table">
+	<table class="table table-striped table-hover"<?php echo $headingDiv_style; ?>>
 	
-		<div class="row"<?php echo $headingDiv_style; ?>>
-			<div class="cell"><b>Purpose</b></div>
-			<div class="cell"><b>Amount</b></div>
-			<div class="cell"><b>Date</b></div>
-			<div class="cell"><b>From</b></div>
-			<div class="cell"><b>To</b></div>
-			<div class="cell"><b>Status</b></div>
-		</div>
-
-		<?php echo $output; ?>
+		<caption>
+			<div class="container-fluid"><div class="row-fluid">
+			<span class="offset2 span2" style="background-color: rgb(213, 236, 191); padding-top: 5px">Approved transaction</span>
+			<span class="offset1 span2" style="background-color: rgba(255, 255, 0, 0.5); padding-top: 5px">Pending transaction</span>
+			<span class="offset1 span2" style="background-color: rgb(242, 189, 177); padding-top: 5px">Rejected transaction</span>
+			</div></div>
+		</caption>
+		
+		<thead>
+			<th>Date</th>
+			<th>Amount</th>		
+			<th>From</th>
+			<th>To</th>
+			<th>Purpose</th>
+		</thead>
+		
+		<tbody>
+		
+			<?php echo $output; ?>
+			
+		</tbody>
 	
-	</div>
+	</table>
 	
-	<br><br>
+	<div class="container-fluid"><div class="row-fluid">
 	
-	<a href="../Home/home.php">Go back to home</a>
+		<a href="../Home/home.php" class="offset5 span2 btn btn-primary btn-large">Go Home</a>
+		
+	</div></div>
 	
 	<script src="../common/bootstrap/jQuery/jquery.js"></script>
 	<script src="../common/bootstrap/js/bootstrap.min.js"></script>

@@ -47,7 +47,7 @@ else
 	exit ( );
 }
 
-$query = "INSERT INTO `transaction`( `amount`, `date`, `from`, `to`, `purpose`, `status`) VALUES ( :amount, :date, :from, :to, :purpose, :status );";
+$query = "INSERT INTO `transaction` ( `amount`, `date`, `from`, `to`, `purpose`, `status`) VALUES ( :amount, :date, :from, :to, :purpose, :status );";
 $stmt = $dbh->prepare ( $query );
 $stmt->bindParam ( ":amount", $amnt );
 $stmt->bindParam ( ":date", $date );
