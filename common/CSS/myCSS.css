@@ -127,5 +127,5 @@ input[type="checkbox"]:checked+label
 
 .newNotification
 {
-	background-color: #FF0000 !important;
+	background-color: rgb(167, 223, 241) !important;
 }
