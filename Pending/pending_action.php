@@ -112,7 +112,7 @@ foreach ( $_POST['_'] as $ID=>$val )
 			{
 				$factor = 1;
 				$finalAmount = $factor * $amount;
-				$frndRelID = $rslt['ID'];
+				$frndRelID = $rslt3['ID'];
 			}
 			else
 			{
