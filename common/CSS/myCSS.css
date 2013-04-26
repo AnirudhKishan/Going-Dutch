@@ -11,8 +11,10 @@
 
 #logIn-form
 {
-	background-color: rgba(255,255,255,0.8);
-	padding: 10px;
+	background-color: rgba(255,255,255,0.95);
+	padding: 20px;
+	border: rgb(49, 126, 172) solid;
+	border-radius: 25px;
 }
 
 .menuImage
@@ -121,4 +123,9 @@ input[type="checkbox"]:checked+label
 .text-big
 {
 	font-size: 1.5em;
+}
+
+.newNotification
+{
+	background-color: #FF0000 !important;
 }
