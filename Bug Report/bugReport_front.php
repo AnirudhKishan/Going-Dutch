@@ -42,7 +42,7 @@ require_once ( '../common/PHP/common_session validate.php' );
 					<div class="control-group">
 						<label class="control-label" for="desc">Bug Description</label>
 						<div class="controls">
-							<textarea name="desc" id="desc"></textarea>
+							<textarea name="desc" id="desc" cols="40" rows="6"></textarea>
 						</div>				
 					</div>
 			
