@@ -14,6 +14,9 @@ if ( isset ( $_GET['err_no'] ) )
 		case 1	:	$output = "<div class=\"offset3 span6 alert alert-info text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>Hurrah!</strong><br>You have no Pending transactions.</div>";
 							break;
 		
+		case 2	:	$output = "<div class=\"offset3 span6 alert alert-info text-center\"><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button><strong>No transaction selected!</strong><br>That's fine. You can accept/reject your pending transactions anytime.</div>";
+							break;
+		
 		default	:	$output = "Technical error, something went wrong!";
 	}
 }

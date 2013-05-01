@@ -63,8 +63,12 @@ $stmt6->bindParam ( ":message", $message );
 $username = XSS_encode ( $currUserName, 0 )[1];
 /**/
 
+$count = 0;
+
 foreach ( $_POST['_'] as $ID=>$val )
 {
+	$count ++;
+
 	if ( $val == 1 )	
 	{
 		$status = 1;
@@ -170,7 +174,16 @@ foreach ( $_POST['_'] as $ID=>$val )
 	}
 }
 
-header ( "Location: pending_output.php" );
-exit ( );
+
+if ( $count == 0 )
+{
+	header ( "Location: pending_output.php?err_no=2" );
+	exit ( );
+}
+else
+{
+	header ( "Location: pending_output.php" );
+	exit ( );
+}
 
 ?>
